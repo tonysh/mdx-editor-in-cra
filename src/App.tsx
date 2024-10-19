@@ -1,11 +1,15 @@
 import React from 'react'
 
 import { MDXEditor, MDXEditorMethods } from '@mdxeditor/editor'
-import { listsPlugin, headingsPlugin } from '@mdxeditor/editor'
+import { listsPlugin, headingsPlugin, quotePlugin, linkPlugin, tablePlugin, toolbarPlugin, codeBlockPlugin } from '@mdxeditor/editor'
 import '@mdxeditor/editor/style.css'
 
 function write_clipboard(text: string) {
   navigator.clipboard.writeText(text);
+}
+
+async function load_clipboard() {
+  return await navigator.clipboard.readText();
 }
 
 function App() {
@@ -13,9 +17,11 @@ function App() {
   const ref = React.useRef<MDXEditorMethods>(null)
   return (
     <>
-      <button onClick={() => ref.current?.setMarkdown('new markdown')}>Set new markdown</button>
-      <button onClick={() => console.log(ref.current?.getMarkdown())}>Get markdown</button>
-      <MDXEditor ref={ref} markdown='*hello world*' plugins={[headingsPlugin(), listsPlugin()]} onChange={write_clipboard} />
+      <button onClick={() => load_clipboard().then((c) => { ref.current?.setMarkdown(c) })}>Load</button>
+      <button onClick={() => write_clipboard(ref.current!.getMarkdown())}>Copy</button>
+      <MDXEditor ref={ref} markdown='*hello world*' plugins={[
+            listsPlugin(), headingsPlugin(), quotePlugin(), linkPlugin(), tablePlugin(), toolbarPlugin(), codeBlockPlugin()
+      ]} />
     </>
   );
 }
