@@ -8,6 +8,9 @@ import '@mdxeditor/editor/style.css'
 function write_clipboard(text: string) {
   // replace list bullets like "[space*4N]-[space*M]" into "[\t*N]- "
   text = text.replace(/^( *)(-\s+)/gm, (_, spaces) => '\t'.repeat(Math.floor(spaces.length / 4)) + '- ')
+  // replace unecessary underlines for links "[<u>...</u>](http://...)" => "[...](http://...)"
+  text = text.replace(/\[<u>/g, '[')
+  text = text.replace(/<\/u>\]/g, ']')
   navigator.clipboard.writeText(text);
 }
 
