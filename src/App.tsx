@@ -37,7 +37,6 @@ function App() {
 
   return (
     <>
-      <button onClick={() => write_clipboard(ref.current!.getMarkdown())}>Copy</button>
       <MDXEditor ref={ref} markdown='' autoFocus placeholder='Press meta+shift+c to copy' toMarkdownOptions={options} plugins={[
             listsPlugin(), headingsPlugin(), quotePlugin(), linkPlugin(), tablePlugin(), codeBlockPlugin(), diffSourcePlugin(),
             toolbarPlugin({
