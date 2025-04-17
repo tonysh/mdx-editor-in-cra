@@ -12,9 +12,11 @@ function write_clipboard(text: string) {
   // replace unecessary underlines for links "[<u>...</u>](http://...)" => "[...](http://...)"
   text = text.replace(/\[<u>/g, '[')
   text = text.replace(/<\/u>\]/g, ']')
-  // replace dumb links into simple text "[http://abc.com](http://abc.com)" => "http://abc.com"
+  // replace dumb links into simple text
+  // - "[http://abc.com](http://abc.com)" => "http://abc.com"
+  // - "[abc.com](http://abc.com)" => "abc.com"
   // TODO: handle "[http://a\_b.com](http://a_b.com)"
-  text = text.replace(/\[(.*?)\]\(\1\)/g, '$1')
+  text = text.replace(/\[(.*?)\]\((?:http:\/\/)?\1\)/g, '$1')
   navigator.clipboard.writeText(text);
 }
 
